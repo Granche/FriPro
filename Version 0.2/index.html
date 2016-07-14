@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+	<title> Test </title>
+	<script src="klass.js"> </script>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body id="body">
+
+	<div id="paintchart"> 
+		<div id="bla" class="farg"> HANDBOLL </div>	
+		<div id="orange" class="farg"> KYRKAN </div>	
+		<div id="gron" class="farg"> UTE </div>	
+		<div id="lila" class="farg"> HEMSPRÅK </div>	
+	</div>
+	
+	<div id="klassDiv" class="klassdiv"> 
+		<center> <b> LINDEBORGS FRITIDS </b> </center> 
+		<span id="counter"> 
+		</span>
+	</div> 
+	
+	<textarea id="kommentdiv"></textarea>
+
+<script> 
+	
+	var klass = document.getElementById("klassDiv");
+	var counter = 0;														//Initiera variabel för elevräknare	
+	var counterdiv = document.getElementById("counter");   
+
+	function active(elever, klass) {
+
+		elever.forEach(function(obj){ 
+			
+			var div = document.createElement("div");				//Skapa div						
+			div.innerHTML = obj.namn+"<br>";				//Mata info till div
+			klass.appendChild(div);									// Append till objektets klassdiv
+			div.style.backgroundColor = "red";
+
+			div.addEventListener("click", function() {				//Div click-funktion
+							
+				if (f == "") {
+					if(this.style.backgroundColor == "red") {
+						counter += 1;
+						counterdiv.innerHTML = counter;
+						this.style.backgroundColor = "white";
+						addTime(obj);
+						div.innerHTML = obj.namn+"<br>"+obj.tid;
+						klass.appendChild(div);
+					}else {
+						if(this.style.backgroundColor == "red" || this.style.backgroundColor == "blue" || this.style.backgroundColor == "orange" || this.style.backgroundColor == "green" || this.style.backgroundColor == "purple") {
+							this.style.backgroundColor = "white";
+						}else {
+							counter -=1;
+							counterdiv.innerHTML = counter;
+							this.style.backgroundColor = "red";
+							div.innerHTML = obj.namn+" gick: <br>"+obj.func();
+						}
+					}	
+				}else {
+					this.style.backgroundColor = f;
+					f = "";		
+				}
+			})	
+		})
+	}
+			
+	active(tvaA, klass)
+
+
+	function addTime(obj) {                                        //Lägg till tid för varje elev 
+		var x = prompt("När ska "+obj.namn+" hem?");     // När ska objektet hem?
+		obj.tid = x;														// mata in tid till objekt	
+	}
+
+																				
+	var bla = document.getElementById("bla");
+	var orange = document.getElementById("orange");
+	var gron = document.getElementById("gron");
+	var lila = document.getElementById("lila");
+
+	bla.style.backgroundColor = "blue";
+	orange.style.backgroundColor = "orange";
+	gron.style.backgroundColor = "green";																	// PAINTCHART
+	lila.style.backgroundColor = "purple";
+
+	var f = "";																								// Variabel som håller färg mellan klicken	
+	bla.addEventListener("click", function () {
+		f = this.style.backgroundColor;
+	})
+	orange.addEventListener("click", function () {
+		f = this.style.backgroundColor;
+	})
+	gron.addEventListener("click", function () {
+		f = this.style.backgroundColor;
+	})
+	lila.addEventListener("click", function () {
+		f = this.style.backgroundColor;
+	})
+
+</script>
+
+</body>
+</html>
+

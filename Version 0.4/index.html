@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+	<title> Test </title>
+	<script src="klass.js"> </script>
+	<link rel="stylesheet" type="text/css" href="style.css">
+
+
+</head>
+<body id="body">
+
+	<div id="paintchart"> 
+		<div id="bla" class="farg"> HANDBOLL </div>	
+		<div id="orange" class="farg"> KYRKAN </div>	
+		<div id="gron" class="farg"> UTE </div>	
+		<div id="lila" class="farg"> HEMSPRÅK </div>	
+	</div>
+
+	<div id="klassDiv" class="klassdiv"> 
+		<center> <b> LINDEBORGS FRITIDS </b> </center> 
+		<span id="counter"> 
+		</span>
+	</div> 
+
+<script> 
+	var klass = document.getElementById("klassDiv")
+	var counter = 0;													
+	var counterspan = document.getElementById("counter");   
+
+	function active(elever, klass) {
+
+		elever.forEach(function(elev){ 
+			clicker(elev);
+		})
+	}
+	active(ettBTva, klass)
+
+	function clicker(elev) {
+			
+		elev.frame().addEventListener("click", function() {
+
+			if(elev.state === null && elev.intime() !== null) {
+				counter += 1;
+				counterspan.innerHTML = counter;
+				this.innerHTML = elev.namn+"<br>"+elev.tid;
+				this.style.backgroundColor = "white";
+				klass.appendChild(this);
+				elev.state = 1;			
+			}else if(elev.state === 1) {
+						
+					if(f === null) {
+						counter -= 1;
+						counterspan.innerHTML = counter;
+						this.style.backgroundColor = "red";
+						this.innerHTML = elev.namn+"<br>"+elev.outtime();
+						console.log(elev.namn+"        Intid : "+elev.intid+ "         Deltog i aktivitet:      "+elev.aktivitet+"          "+"Uttid : "+elev.uttid)
+
+						elev.state = null;
+					}else {
+
+						for (var i = 0; i < fargpalett.length; i++) {
+							fargpalett[i].style.outline = ""
+						}
+
+						this.style.backgroundColor = f;
+						elev.aktivitet += g+", ";
+						g = null;
+						f = null;
+						elev.state = 2;	}
+						
+			}else if (elev.state === 2) {
+						this.style.backgroundColor = "white";
+						elev.state = 1;
+			}
+		})		
+	}
+
+	var bla = document.getElementById("bla");
+	var orange = document.getElementById("orange");
+	var gron = document.getElementById("gron");
+	var lila = document.getElementById("lila");
+
+	var fargpalett = document.getElementsByClassName("farg")
+
+	bla.style.backgroundColor = "blue";
+	orange.style.backgroundColor = "orange";
+	gron.style.backgroundColor = "green";							
+	lila.style.backgroundColor = "purple";
+
+	var f = null;
+	var g = null;
+
+	bla.addEventListener("click", function () {
+		g = this.innerHTML
+		f = this.style.backgroundColor;
+		this.style.outline = "3px solid red"
+	})
+	orange.addEventListener("click", function () {
+		g = this.innerHTML
+		f = this.style.backgroundColor;	
+		this.style.outline = "3px solid red";
+	})
+	gron.addEventListener("click", function () {
+		g = this.innerHTML
+		f = this.style.backgroundColor;
+		this.style.outline = "3px solid red";
+	})
+	lila.addEventListener("click", function () {
+		g = this.innerHTML
+		f = this.style.backgroundColor;
+		this.style.outline = "3px solid red";
+	})
+
+</script>
+
+</body>
+</html>

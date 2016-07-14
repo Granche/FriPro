@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title> Test </title>
+	<script src="klass.js"> </script>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body id="body">
+
+	<div id="paintchart"> 
+		<div id="bla" class="farg"> HANDBOLL </div>	
+		<div id="orange" class="farg"> KYRKAN </div>	
+		<div id="gron" class="farg"> UTE </div>	
+		<div id="lila" class="farg"> HEMSPRÅK </div>	
+	</div>
+
+	<div id="klassDiv" class="klassdiv"> 
+		<center> <b> LINDEBORGS FRITIDS </b> </center> 
+		<span id="counter"> 
+		</span>
+	</div> 
+<!--   <textarea id="kommentdiv"></textarea> -->
+
+<script> 
+	var klass = document.getElementById("klassDiv")
+	var counter = 0;														//Initiera variabel för elevräknare	
+	var counterdiv = document.getElementById("counter");   
+
+function active(elever, klass) {
+
+	elever.forEach(function(obj){ 
+		
+		var div = document.createElement("div");				//Skapa mini-div						
+		div.innerHTML = obj.namn+"<br>";						//Mata info till div
+		klass.appendChild(div);									// Append mini-div till klassdiv
+		div.style.backgroundColor = "red";						//Alla är först röda = inaktiva
+		div.addEventListener("click", function() {				//Div click-funktion
+		
+			if (f == "") {										// OM ingen aktivitetsfärg är vald		
+				if(this.style.backgroundColor == "red") {
+
+					if(addTime(obj) !== false) {				// anropar tid-funktion - sen OM user INTE tryckt på avbryt i prompten
+						counter += 1;							//+1 på elevräknare		
+						counterdiv.innerHTML = counter;			//klistra in ny antal elever till counterdiv	
+						this.style.backgroundColor = "white";	//ändra färg till vit = aktiv
+						div.innerHTML = obj.namn+"<br>"+obj.tid; //mata	in elevens namn och tid till mini-div, 
+						klass.appendChild(div);					 // mata in färdig mini-div till klassdiv 	
+					}											 // Annars inget	
+				}else {
+
+					if(this.style.backgroundColor == "red" || this.style.backgroundColor == "blue" || this.style.backgroundColor == "orange" || this.style.backgroundColor == "green" || this.style.backgroundColor == "purple") {
+						this.style.backgroundColor = "white";	// Om elev är inaktiv eller aktiv i aktivitet, dra tillbaka till vit
+
+					} else {									 
+						counter -=1;							// Om man trycker på vit elev = -1 på räknare
+						counterdiv.innerHTML = counter;			// mata ut nytt antal elever till counterdiv
+						this.style.backgroundColor = "red";		// Mini-div blir röd = inaktiv
+						div.innerHTML = obj.namn+" gick: <br>"+obj.func();	// tiden då eleven skickades hem stämplas
+					}
+				}	
+			} else {											// OM aktivitetsfärg är valt
+				if(this.style.backgroundColor == "red") {		// kolla om eleven är röd == inaktiv								
+					f = "";										// om eleven är inaktiv, bortse från klick, färgvariabel == 0;
+				}else {
+					this.style.backgroundColor = f;				// Om aktivitetsfärg är val och elev är aktiv, färga elev med vald färg och återgå till 0
+					f = "";
+				}
+			}
+		})	
+	})
+}
+		
+active(ettB, klass)
+
+
+function addTime(obj) {                                        //Lägg till tid för varje elev 
+	var x = prompt("När ska "+obj.namn+" hem?");     			// När ska eleven hem?
+	if(x !== null) {											// OM man inte tryckt på avbryt	
+		obj.tid = x;											// mata in tid för elev	
+	} else { 
+		return false;											// annars return false
+
+	}
+}																			
+var bla = document.getElementById("bla");
+var orange = document.getElementById("orange");
+var gron = document.getElementById("gron");
+var lila = document.getElementById("lila");
+
+bla.style.backgroundColor = "blue";
+orange.style.backgroundColor = "orange";
+gron.style.backgroundColor = "green";																	// PAINTCHART
+lila.style.backgroundColor = "purple";
+
+var f = "";																								// Variabel som håller färg mellan klicken	
+bla.addEventListener("click", function () {
+	f = this.style.backgroundColor;
+})
+orange.addEventListener("click", function () {
+	f = this.style.backgroundColor;
+})
+gron.addEventListener("click", function () {
+	f = this.style.backgroundColor;
+})
+lila.addEventListener("click", function () {
+	f = this.style.backgroundColor;
+})
+
+
+</script>
+
+
+
+</body>
+</html>
+

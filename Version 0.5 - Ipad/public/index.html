@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+	<title> Test </title>
+	<script src="klass.js"> </script>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body id="body">
+
+          <!------------------      Aktivitetslådan     ------------------------>
+  <div id="paintchart"> 
+    <div id="bla" class="farg"> HANDBOLL </div> 
+    <div id="orange" class="farg"> KYRKAN </div>  
+    <div id="gron" class="farg"> UTE </div> 
+    <div id="lila" class="farg"> HEMSPRÅK </div>  
+  </div>
+
+
+          <!------------------     MAINFRAME     ------------------------>
+
+  <div id="klassDiv" class="klassdiv"> 
+    <center> <b> LINDEBORGS FRITIDS </b> </center> 
+    <span id="counter"> 
+    </span>
+  </div> 
+
+                
+
+<div id="goneHome" class="dropzone"></div>   <!-- "Elever som släpps här raderas ut mainframe, aka "kastas" -->
+
+
+<script type="text/javascript" src="js/interact.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
+
+<script> 
+  var klass = document.getElementById("klassDiv")               //klassidv
+  var counter = 0;                                              //elevräknare
+  var counterspan = document.getElementById("counter");         //räknarframe
+
+function active(elever, klass) {
+
+  elever.forEach(function(elev){                            //eleverna kommer i en array, för varje elev, kör clicker-funktionen    
+    clicker(elev);
+  })
+}
+active(ettBTva, klass)
+
+function clicker(elev) {
+
+      interact(elev.frame()).on('doubletap', function (event) {      // Elevrutan måste dubbelklickas 
+      event.target.id ="no-drop"                                     //OM elev är aktiv, ska denne inte kunna "kastas" 
+    if(elev.state === null && elev.intime() !== null) {           //OM man ej avbryter prompten och state == null när klick sker:  
+      counter += 1;                                                  // räkna in en elev   
+      counterspan.innerHTML = counter;                                  
+      event.target.innerHTML = elev.namn+"<br>"+elev.tid;            //displaya namn och tid för hemgång     
+      event.target.style.backgroundColor = "white";                   // byt färg till aktiv
+      elev.state = 1;                                                 // elev är nu i state 1    
+          
+    }else if(elev.state === 1) {                                      //OM state redan är lika med 1:
+          
+        if(f === null) {                                              // om ingen aktivitet är vald  
+          counter -= 1;                                               // räkna bort en elev
+          counterspan.innerHTML = counter;
+          event.target.style.backgroundColor = "red";                  //ange inaktiv färg 
+          event.target.innerHTML = elev.namn+"<br>"+elev.outtime();     // tiden då eleven skickades hem displayas
+          event.target.id="yes-drop"                                     // Elev går nu att "kasta" 
+          alert(elev.namn+"\n"+"Intid: "+elev.intid+                     // Alerta Elevinfo,  simulera databas
+            "\n"+"Deltog i aktivitet: "+elev.aktivitet+"\n"+"Uttid : "+elev.uttid)
+
+          elev.state = null;                                             // elev state är tillbaka till null 
+
+        }else {                                                          // OM aktivitet är vald: 
+
+          for (var i = 0; i < fargpalett.length; i++) {                   // markera aktivitet så man ser vad man valt
+            fargpalett[i].style.outline = ""
+          }
+
+          event.target.style.backgroundColor = f;         // ange färg och aktivitet som man klickat på , till elev man klickat på   
+          elev.aktivitet += g+", ";                                       // spara aktivitet på elev till databas.
+          g = null;
+          f = null;                                                       // nolla variabler
+          elev.state = 2; }                                               // elev befinner sig nu i state 2  
+
+    }else if (elev.state === 2) {                                         // om elev redan befinner sig i state 2 vid klick
+          event.target.style.backgroundColor = "white";                   // ta bort aktivitetfärg, ange enkel aktiv färg
+          elev.state = 1;                                                 // elev är tillbaka till state 1
+    }
+  })    
+}
+
+var bla = document.getElementById("bla");                                       
+var orange = document.getElementById("orange");
+var gron = document.getElementById("gron");                         // AKTIVITETBOXAR
+var lila = document.getElementById("lila");
+
+var fargpalett = document.getElementsByClassName("farg")          // array med aktivitetsboxar
+
+bla.style.backgroundColor = "blue";                               //anger färg för aktivitet
+orange.style.backgroundColor = "orange";
+gron.style.backgroundColor = "green";             
+lila.style.backgroundColor = "purple";
+
+var f = null;                                                     // variabel för att övetföra aktivitets-färg
+var g = null;                                                     // variabel för att övetföra aktivitet  
+
+interact("#bla").on('tap', function (event) {                     
+  g = event.target.innerHTML
+  f = event.target.style.backgroundColor;
+  event.target.style.outline = "10px solid red"
+})
+interact("#orange").on('tap', function (event) { 
+  g = event.target.innerHTML
+  f = event.target.style.backgroundColor;
+  event.target.style.outline = "10px solid red"                   // klickfunktioner för att ange aktivitet för elev,             
+})                                                                // samt märka ut vilken aktivitet man klickat på
+interact("#gron").on('tap', function (event) { 
+  g = event.target.innerHTML
+  f = event.target.style.backgroundColor;
+  event.target.style.outline = "10px solid red"
+})
+interact("#lila").on('tap', function (event) { 
+  g = event.target.innerHTML
+  f = event.target.style.backgroundColor;
+  event.target.style.outline = "10px solid red"
+})
+
+
+
+          ///////////////     INTERACT.JS       ////////////////////
+
+interact('.draggable')
+  .draggable({
+    // enable inertial throwing
+    inertia: true,
+    // keep the element within the area of it's parent
+    restrict: {
+      restriction: "",
+      endOnly: true,
+      elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
+    },
+    // enable autoScroll
+    autoScroll: true,
+
+    // call this function on every dragmove event
+    onmove: dragMoveListener,
+    // call this function on every dragend event
+    onend: function (event) {
+      
+      var textEl = event.target.querySelector('p');
+      textEl && (textEl.textContent =
+        'moved a distance of '
+        + (Math.sqrt(event.dx * event.dx +
+                     event.dy * event.dy)|0) + 'px');
+    }
+  });
+
+  function dragMoveListener (event) {
+    var target = event.target,
+        // keep the dragged position in the data-x/data-y attributes
+        x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
+        y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+
+    // translate the element
+    target.style.webkitTransform =
+    target.style.transform =
+      'translate(' + x + 'px, ' + y + 'px)';
+
+    // update the posiion attributes
+    target.setAttribute('data-x', x);
+    target.setAttribute('data-y', y);
+  }
+
+
+
+
+
+
+
+
+
+interact('.dropzone').dropzone({
+  // only accept elements matching this CSS selector
+  accept: '#yes-drop',
+  // Require a 75% element overlap for a drop to be possible
+  overlap: 0.75,
+
+  // listen for drop related events:
+
+  ondropactivate: function (event) {
+    //alert("HALLO")
+  },
+  ondragenter: function (event) {
+    // alert("HALLO")
+  },
+  ondragleave: function (event) {
+    //alert("HALLO")
+  },
+  ondrop: function (event) {
+    console.log(event.target)
+    klass.removeChild(event.relatedTarget)
+  },
+  ondropdeactivate: function (event) {
+  }
+});
+
+
+
+
+
+  
+
+
+
+</script>
+
+</body>
+</html>

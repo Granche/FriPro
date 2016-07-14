@@ -1,0 +1,41 @@
+Påbörjades någon gång Juni 2015, när jag fick reda på att jag skulle börja läsa javascript till hösten. 
+
+
+4 November. 2015 - Version 0.1 
+Version 0.1 visas upp och skickas tillbaka omedelbart med önskemål att ange tid för elever efter första klick istället för automatiskt vid start. 
+Dessutom så visade det sig att det tydligen var olagligt att betygsätta barn efter beteende, 
+
+
+1 December. 2015 - Version 0.2
+Version 0.2 lämnas till kunden. 
+En version var felskriven, återkommer, antagligen bara fel vid överföring till USB. 
+En annan klickade räknaren till negativt tal, antagligen när man avbryter promptem och/eller om man klickar aktivitet på inaktiv elev. 
+
+
+4 Dec. Version 0.3 
+Elevräknare fixad, ytterliggare en if-sats i active funktionen, if (x!==false);
+samt en if/else sats i addTime();, if(x){kör på}    else{return false}. 
+
+10 Dec. Version 0.3 
+Mindre ändringar i design.
+ytterliggare if/else sats för att inte kunna klicka aktivitet på en inaktiv elev. 
+Nya variabler i varje elev-objekt, vegetarian eller allergisk sålänge.
+
+21 Dec. Version 0.4 2015
+Skrivit om nästan hela programmet, samtliga funktioner förutom aktivitet/färgklickare är inflyttade i elev-constructor och ändrade. 
+nya funktioner är: intid, uttid, frame och clicker, plus variabel för klass, vegetarian och allergi och fläskfri.
+Från och med nu sker alla förändringar på elev direkt på objektet, och efter avslutad dag
+så ska en automatisk JSON sträng skickas till databas som loggar all dagens info om elev.
+idag fungerar 0.4 precis som 0.3, men krympte med 40 rader, 4 if-satser och en hel del krångel. 
+Vlatko jobbar på design-beta. 
+
+15 Januari 2016 
+Påbörjar överföring till Ipad samtidigt så implementeras Interact.js för att underlätta för Ipad-user. tror jag.. 
+Vi får se i Februari..
+
+25 Januari. 2016
+Överföring till Ipad, samt implementering av interact.js är fullständiga, programmet är tillbaka till sin ursprungliga funktionalitet, fast nu med interact!
+Små förändringar har skett i och med Interact, se kommentarer!
+
+
+
